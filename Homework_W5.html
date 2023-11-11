@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Registrasi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Register Peserta</button>
+          <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">List Peserta</button>
+        </div>
+
+      </nav>
+      <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <label for="Nama">Nama</label>
+            <input type="text" id="namaInput"><br>
+            <label for="Umur">Umur</label>
+            <input type="text" id="umurInput"><br>
+            <label for="Uang_Saku">Uang Saku</label>
+            <input type="text" id="uangSakuInput"><br>
+            <button id="submitButton">Submit Data</button>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <table id="pesertaTable">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Umur</th>
+                        <th>Uang Saku</th>
+                    </tr>
+            <p>Rata-rata pendaftar memiliki uang saku sebesar <span id="rataRataUangSaku">0</span> dengan rata-rata umur <span id="rataRataUmur">0</span>.</p>
+                </thead>
+            <tbody id="pesertaList">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+      document.getElementById("submitButton").addEventListener("click", function () {
+          var nama = document.getElementById("namaInput").value;
+          var umur = document.getElementById("umurInput").value;
+          var uangSaku = document.getElementById("uangSakuInput").value;
+          
+
+        if (nama.length < 10) {
+            alert("Nama harus memiliki minimal 10 karakter");
+            return;
+        }
+        if (umur < 25) {
+            alert("umur harus minimal 25 tahun");
+            return;
+        }
+        if (uangSaku < 100000 || uangSaku > 1000000) {
+            alert("uang saku minimal 100.000 maksimal 1000.000");
+            return;
+        }
+        if (nama === "" || umur === "" || uangSaku === "") {
+            alert("Harap isi semua kolom");
+            return;
+        }
+
+          var table = document.getElementById("pesertaTable");
+          var row = table.insertRow(table.rows.length);
+
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+
+          cell1.innerHTML = nama;
+          cell2.innerHTML = umur;
+          cell3.innerHTML = uangSaku;
+
+        document.getElementById("namaInput").value = "";
+        document.getElementById("umurInput").value = "";
+        document.getElementById("uangSakuInput").value = "";
+
+        updateRataRata();  
+
+    function updateRataRata() {
+    var table = document.getElementById("pesertaTable");
+    var rows = table.rows;
+    var totalUangSaku = 0;
+    var totalUmur = 0;
+
+    for (var i = 1; i < rows.length; i++) { 
+        var uangSaku = parseInt(rows[i].cells[2].innerHTML);
+        var umur = parseInt(rows[i].cells[1].innerHTML);
+        totalUangSaku += uangSaku;
+        totalUmur += umur;
+    }
+
+    var rataRataUangSaku = totalUangSaku / (rows.length - 1); 
+    var rataRataUmur = totalUmur / (rows.length - 1); 
+
+    document.getElementById("rataRataUangSaku").textContent = rataRataUangSaku.toFixed(2);
+    document.getElementById("rataRataUmur").textContent = rataRataUmur.toFixed(2);
+}
+    });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  
+</body></html>
